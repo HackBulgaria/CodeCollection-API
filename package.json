@@ -1,0 +1,27 @@
+{
+  "name": "CodeCollection-API",
+  "version": "0.0.1",
+  "description": "The API for the Code Collection database",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HackBulgaria/CodeCollection-API.git"
+  },
+  "keywords": [
+    "programming",
+    "tasks"
+  ],
+  "author": "Hack Bulgaria",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HackBulgaria/CodeCollection-API/issues"
+  },
+  "homepage": "https://github.com/HackBulgaria/CodeCollection-API",
+  "dependencies": {
+    "express": "^4.1.0",
+    "octonode": "^0.6.2"
+  }
+}
