@@ -1,44 +1,58 @@
-var util = require("util");
-var token = require("./credentials").token;
+var load = require("./load");
+load.all();
 
-var github = require("octonode");
-var client = github.client(token);
-var ghrepo = client.repo("HackBulgaria/CodeCollection");
 
-var jsonPath = "tasks/%s/metadata.json";
-var mdPath = "tasks/%s/description.md"
-var indexPath = "index.json%s"
+var database = load.database();
+var index = load.indexJson();
 
-module.exports.indexjson = fetchIndex
-module.exports.json = fetchJson
-module.exports.md = fetchMd
-module.exports.dirName = makeDirName
+module.exports.allJsons = getFetchedJsons
+module.exports.jsonsByTags = fetchJsonsByTags
+module.exports.jsonsByIds = fetchJsonsByIds
 
-function fetchFile(uniqueId, name, cb, filePath) {
-    var dirName = makeDirName(uniqueId, name);
-    var path = util.format(filePath, dirName);
-    var content;
 
-    ghrepo.contents(path, function(req, res) {
-        content = new Buffer(res.content, 'base64').toString('ascii');
-        cb(content);
+var fetchedJsons = fetchAllJsons();
+
+
+function getFetchedJsons() {
+    return reformat(fetchedJsons);
+}
+
+function fetchAllJsons() {
+    var uniqueIds = Object.keys(database);
+    var arr = [];
+    uniqueIds.forEach(function (uniqueId) {
+        var json = database[uniqueId][0].toString();
+        arr.push(JSON.parse(json));
     });
+    return arr;
 }
 
-function makeDirName(uniqueId, name) {
-    if (uniqueId == "" && name == "") return "";
-    if (uniqueId == "") return name;
-    return name.toLowerCase().replace(/ /g, "_") + "-" + uniqueId;
+function containsTag(object, tag) {
+    return object["tags"].indexOf(tag) > -1;
 }
 
-function fetchIndex(cb) {
-    fetchFile("", "", cb, indexPath);
+function containsTags(tags, object) {
+    return tags.every(containsTag.bind(undefined, object));
 }
 
-function fetchJson(uniqueId, name, cb) {
-    fetchFile(uniqueId, name, cb, jsonPath);
+function fetchJsonsByTags(tags) {
+    var filtered = fetchedJsons.filter(containsTags.bind(undefined, tags));
+    return reformat(filtered);
 }
 
-function fetchMd(uniqueId, name, cb) {
-    fetchFile(uniqueId, name, cb, mdPath);
+function reformat(filtered) {
+    filtered.forEach(function (json) {
+        var id = json["unique_id"];
+        json["markdown"] = database[id][1].toString('base64');
+    });
+    return filtered;
+}
+
+function matchesId(ids, json) {
+    return ids.indexOf(json["unique_id"]) > -1;
+}
+
+function fetchJsonsByIds(ids) {
+    var filtered = fetchedJsons.filter(matchesId.bind(undefined, ids));;
+    return reformat(filtered);
 }

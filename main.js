@@ -1,16 +1,16 @@
-var gapi = require("./github-api");
+var fetch = require("./fetch");
 var express = require("express");
 var app = express();
 
 
 function sendJson(res, content) {
-    console.log(content);
     res.send(content);
 }
 
 function getAll() {
     app.get("/tasks", function (req, res) {
-
+        sendJson(res, fetch.allJsons());
+        console.log(fetch.allJsons())
     });
 }
 
@@ -18,10 +18,10 @@ function getByTags() {
     app.get("/tasks", function (req, res) {
         var tags = req.query["tag"];
         if (!Array.isArray(tags)) tags = [tags];
-
-        gapi.getJsons(tags, sendJson.bind(undefined, res));
+        sendJson(res, fetch.jsonsByTags(tags));
     });
 }
 
-getByTags();
+getAll();
+
 app.listen(3000);
