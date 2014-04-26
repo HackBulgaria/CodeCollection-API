@@ -9,13 +9,13 @@ var jsonPath = "tasks/%s/metadata.json";
 var mdPath = "tasks/%s/description.md"
 var indexPath = "index.json%s"
 
-module.exports.indexjs = fetchIndex
+module.exports.indexjson = fetchIndex
 module.exports.json = fetchJson
 module.exports.md = fetchMd
+module.exports.dirName = makeDirName
 
 function fetchFile(uniqueId, name, cb, filePath) {
     var dirName = makeDirName(uniqueId, name);
-    console.log(dirName);
     var path = util.format(filePath, dirName);
     var content;
 
@@ -26,11 +26,13 @@ function fetchFile(uniqueId, name, cb, filePath) {
 }
 
 function makeDirName(uniqueId, name) {
+    if (uniqueId == "" && name == "") return "";
+    if (uniqueId == "") return name;
     return name.toLowerCase().replace(/ /g, "_") + "-" + uniqueId;
 }
 
 function fetchIndex(cb) {
-    fetchFile("", cb, indexPath);
+    fetchFile("", "", cb, indexPath);
 }
 
 function fetchJson(uniqueId, name, cb) {
