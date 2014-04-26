@@ -1,7 +1,7 @@
 var util = require("util");
+var token = require("./credentials").token;
 
 var github = require("octonode");
-var token = "4c9c5dd10e5d829762770125684cb992af3479de";
 var client = github.client(token);
 var ghrepo = client.repo("HackBulgaria/CodeCollection");
 
