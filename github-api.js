@@ -55,11 +55,10 @@ function getMdsByUniqueIds(unique_ids, cb) {
     });
 }
 
-
 // some tests, let them here just for an example
-function print(content) {
-    console.log(content);
-}
+//function print(content) {
+//    console.log(content);
+//}
 //getJsonsByTags(["beginner", "for-loop"], print);
 
-getMdsByUniqueIds(["c0deb3d3b8878660", "cb17b243823dd65a"], print);
+//getMdsByUniqueIds(["c0deb3d3b8878660", "cb17b243823dd65a"], print);
