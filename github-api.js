@@ -53,10 +53,11 @@ function getMdsByUniqueIds(unique_ids, cb) {
     getUniqueNameById(unique_ids, selectMds.bind(undefined, cb));
 }
 
-function print(content) {
-    console.log(content);
-}
 
+// some tests, let them here just for an example
+//function print(content) {
+//    console.log(content);
+//}
 //getJsonsByTags(["beginner", "for-loop"], print);
 
-getMdsByUniqueIds(["c37efda56e369d7e"], print);
+//getMdsByUniqueIds(["c37efda56e369d7e"], print);
