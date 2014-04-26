@@ -45,19 +45,21 @@ function getUniqueNameById(unique_id, cb) {
     });
 }
 
-function selectMds(cb, unique_name) {
-        fetch.md("", unique_name, cb);
+function selectMd(cb, unique_name) {
+    fetch.md("", unique_name, cb);
 }
 
 function getMdsByUniqueIds(unique_ids, cb) {
-    getUniqueNameById(unique_ids, selectMds.bind(undefined, cb));
+    unique_ids.forEach(function (unique_id) {
+        getUniqueNameById(unique_id, selectMd.bind(undefined, cb));
+    });
 }
 
 
 // some tests, let them here just for an example
-//function print(content) {
-//    console.log(content);
-//}
+function print(content) {
+    console.log(content);
+}
 //getJsonsByTags(["beginner", "for-loop"], print);
 
-//getMdsByUniqueIds(["c37efda56e369d7e"], print);
+getMdsByUniqueIds(["c0deb3d3b8878660", "cb17b243823dd65a"], print);
