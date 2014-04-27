@@ -11,15 +11,15 @@ var index = JSON.parse(loadIndexJson().toString());
 
 module.exports.all = loadAll
 module.exports.database = loadDatabase
-module.exports.indexJson = loadIndex
-module.exports.nameForId = loadNameForId
+module.exports.indexJson = loadIndexJson
+//module.exports.nameForId = loadNameForId
 
 
 function loadDatabase() {
     return database;
 }
 
-function loadIndex() {
+function loadIndexJson() {
     var keys = loadAllKeys();
     var arr = [];
     keys.forEach(function (key) {

@@ -9,7 +9,7 @@ var index = load.indexJson();
 module.exports.allJsons = getFetchedJsons
 module.exports.jsonsByTags = fetchJsonsByTags
 module.exports.jsonsByIds = fetchJsonsByIds
-module.exports.allTags = fetchAllTags
+module.exports.allTags = getFetchedTags
 
 
 var fetchedJsons = fetchAllJsons();
@@ -18,6 +18,10 @@ var fetchedTags = fetchAllTags();
 
 function getFetchedJsons() {
     return reformat(fetchedJsons);
+}
+
+function getFetchedTags() {
+    return fetchedTags;
 }
 
 function fetchAllJsons() {
@@ -43,12 +47,12 @@ function fetchJsonsByTags(tags) {
     return reformat(filtered);
 }
 
-function reformat(filtered) {
-    filtered.forEach(function (json) {
+function reformat(jsons) {
+    jsons.forEach(function (json) {
         var id = json["unique_id"];
         json["markdown"] = database[id][1].toString('base64');
     });
-    return filtered;
+    return jsons;
 }
 
 function matchesId(ids, json) {
