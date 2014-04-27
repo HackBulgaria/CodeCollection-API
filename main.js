@@ -2,10 +2,12 @@ var fetch = require("./fetch");
 var express = require("express");
 var app = express();
 
+app.set("jsonp callback", true)
 
 function sendJson(res, content) {
-    res.send(content);
-    res.end();
+    // res.send(content);
+    // res.end();
+    res.jsonp(content)
 }
 
 app.get("/tasks", function (req, res) {
@@ -22,5 +24,4 @@ app.get("/tags", function (req, res) {
     sendJson(res, fetch.allTags());
 });
 
-
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
