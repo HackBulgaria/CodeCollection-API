@@ -32,10 +32,6 @@ function loadNameForId(unique_id) {
     return index[unique_id]["name"];
 }
 
-function getFileContents(pathToFile, key) {
-    return fs.readFileSync(pathToFile);
-}
-
 function loadAllKeys() {
     var uniqueIds = Object.keys(index);
     return uniqueIds;
@@ -43,19 +39,23 @@ function loadAllKeys() {
 
 function loadAll() {
     var keys = loadAllKeys();
-    keys.forEach(function (key) {
-        var uniqueId = key;
-        var name = index[key]["name"];
+    keys.forEach(function (uniqueId) {
+        var name = index[uniqueId]["name"];
         var tuple = [loadJson(uniqueId, name),
                 loadMarkdown(uniqueId, name)];
         database[uniqueId] = tuple;
     });
+
     return true;
 }
 
 function loadIndexJson() {
     var path = util.format(indexJsonPath, "");
     return getFileContents(path, "index");
+}
+
+function getFileContents(pathToFile) {
+    return fs.readFileSync(pathToFile);
 }
 
 function getPath(uniqueId, name) {
@@ -65,12 +65,12 @@ function getPath(uniqueId, name) {
 
 function loadJson(uniqueId, name) {
     var path = getPath(uniqueId, name);
-    var full_path = util.format(jsonPath, path);
-    return getFileContents(full_path, uniqueId);
+    var fullPath = util.format(jsonPath, path);
+    return getFileContents(fullPath);
 }
 
 function loadMarkdown(uniqueId, name) {
     var path = getPath(uniqueId, name);
-    var full_path = util.format(mdPath, path);
-    return getFileContents(full_path, uniqueId);
+    var fullPath = util.format(mdPath, path);
+    return getFileContents(fullPath);
 }
